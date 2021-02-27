@@ -41,13 +41,18 @@ def proverka_cc(x, y):  # координаты
         print(None)
 
 
-def finish(one, two):
-    picture_1[one] = 1
-    picture_1[two] = 1
-    print(picture_1)
-    if len(picture_1) == 6:
-        print("FINISH")
-        return True
+def finish(one, two, n):
+    if n == 3:
+        picture_1[one] = 1
+        picture_1[two] = 1
+        print(picture_1)
+        if len(picture_1) == 6:
+            print("FINISH")
+            return True
+    if n == 2:
+        if len(picture_1) == 6:
+            print("FINISH")
+            return True
 
 
 def look(z):  # показать
@@ -82,20 +87,12 @@ if __name__ == '__main__':
                     look(z1)
                     if z1 not in ap:
                         ap.append(z1)
-                '''
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]
-                    z2 = proverka_cc(x, y)
-                    st = pygame.time.get_ticks()
-                    look(z2)
-                    if z2 not in ap:
-                        ap.append(z2)
-                '''
+
                 if len(ap) == 3:
                     print(ap)
                     if p_n[ap[0][1]][ap[0][0]] == p_n[ap[1][1]][ap[1][0]]:
                         print('Right')
-                        if finish(ap[0], ap[1]):
+                        if finish(ap[0], ap[1], 3
                             break
                         ap = [ap[-1]]
                     else:
@@ -110,7 +107,7 @@ if __name__ == '__main__':
                 elif len(ap) > 3:
                     ap = []
                 elif len(ap) == 2:
-                    if finish(ap[0], ap[1]):
+                    if finish(ap[0], ap[1], 2)
                         break
 
         pygame.display.flip()
