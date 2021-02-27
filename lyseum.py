@@ -4,15 +4,11 @@ import sys
 import pygame
 import random
 
+FPS = 50
 n = 0
 clock = pygame.time.Clock()
-pygame.init()
-pygame.display.set_caption('Найдите пару')
-screen = pygame.display.set_mode((600, 650))
-screen.fill((100, 150, 200))
-back = pygame.image.load('tree.jpg')
-screen.blit(back, (0, 0))
-pygame.display.update()
+
+
 
 p = ['ybloki.jpg', 'ybloki.jpg', 'grusha.jpg', 'grusha.jpg', 'sliva.jpg', 'sliva.jpg']
 random.shuffle(p)
@@ -41,18 +37,33 @@ def proverka_cc(x, y):  # координаты
         print(None)
 
 
-def finish(one, two, n):
-    if n == 3:
-        picture_1[one] = 1
-        picture_1[two] = 1
-        print(picture_1)
-        if len(picture_1) == 6:
-            print("FINISH")
-            return True
-    if n == 2:
-        if len(picture_1) == 6:
-            print("FINISH")
-            return True
+def finish(one, two):
+    picture_1[one] = 1
+    picture_1[two] = 1
+    if len(picture_1) == 6:
+        print("FINISH")
+        return True
+
+
+def end_screen():
+    intro_text = ["ПОЗДРАВЛЯЕМ!", " ", "ВЫ СОБРАЛИ ВСЕ ФРУКТЫ.", "МОЛОДЦЫ!"]
+    back = pygame.image.load('tree.jpg')
+    screen.blit(back, (0, 0))
+    pygame.draw.rect(screen, (200, 255, 200), (40, 100, 530, 300))
+    pygame.draw.rect(screen, (150, 255, 150), (40, 100, 530, 300), 8)
+
+    pygame.display.update()
+    font = pygame.font.Font(None, 50)
+    text_coord = 150
+
+    for line in intro_text:
+        string_rendered = font.render(line, 1, pygame.Color((255, 0, 255)))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 70
+        text_coord += intro_rect.height
+        screen.blit(string_rendered, intro_rect)
 
 
 def look(z):  # показать
@@ -61,11 +72,27 @@ def look(z):  # показать
     screen.blit(image1, (130 + 150 * z[1] + 20 * z[1], 100 + 150 * z[0] + 20 * z[0]))  # нахождение картинки
 
 
-
 ap = []
 print(picture)
+flag = False
+
+
+def button():
+    screen.fill((100, 150, 200))
+    size = [190, 45]
+    text = 'Старт'
+    rect_button = pygame.Rect(350, 300, size[0], size[1])
+
+
 if __name__ == '__main__':
     pygame.init()
+    pygame.display.set_caption('Найдите пару')
+    screen = pygame.display.set_mode((600, 650))
+    screen.fill((100, 150, 200))
+
+    back = pygame.image.load('tree.jpg')
+    screen.blit(back, (0, 0))
+    pygame.display.update()
 
     running = True
     lo_f, lo_s = False, False
@@ -92,7 +119,7 @@ if __name__ == '__main__':
                     print(ap)
                     if p_n[ap[0][1]][ap[0][0]] == p_n[ap[1][1]][ap[1][0]]:
                         print('Right')
-                        if finish(ap[0], ap[1], 3
+                        if finish(ap[0], ap[1]):
                             break
                         ap = [ap[-1]]
                     else:
@@ -107,8 +134,14 @@ if __name__ == '__main__':
                 elif len(ap) > 3:
                     ap = []
                 elif len(ap) == 2:
-                    if finish(ap[0], ap[1], 2)
+                    if finish(ap[0], ap[1]):
+                        flag = True
                         break
+        pygame.display.flip()
+        pygame.time.wait(10)
+        if flag:
+            pygame.time.wait(2200)
+            end_screen()
 
         pygame.display.flip()
         pygame.time.wait(10)
