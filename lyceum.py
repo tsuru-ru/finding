@@ -226,5 +226,5 @@ if __name__ == '__main__':
                             all_sprites.draw(screen)
 
                         pygame.display.flip()
-                        pygame.time.wait(10)
+                        pygame.time.wait(100)
     pygame.quit()
